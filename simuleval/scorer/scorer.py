@@ -23,6 +23,7 @@ class Scorer(object):
         self.eval_latency_unit = args.eval_latency_unit
         self.sacrebleu_tokenizer = args.sacrebleu_tokenizer
         self.no_space = args.no_space
+        self.predict_file = os.path.join(args.output, "prediction")
 
         if (
             self.data_type == "speech"
@@ -125,6 +126,10 @@ class Scorer(object):
         except Exception as e:
             print(e, file=sys.stderr)
             bleu_score = 0
+
+        with open(self.predict_file, "w") as f:
+            f.writelines(translations)
+            logger.info(f"Predictions saved to {self.predict_file}.")
 
         return {"BLEU": bleu_score}
 
