@@ -128,7 +128,8 @@ class Scorer(object):
             bleu_score = 0
 
         with open(self.predict_file, "w") as f:
-            f.writelines(translations)
+            for line in translations:
+                f.write(line + "\n")
             logger.info(f"Predictions saved to {self.predict_file}.")
 
         return {"BLEU": bleu_score}
